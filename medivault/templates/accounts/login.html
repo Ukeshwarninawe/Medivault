@@ -2,8 +2,8 @@
 {% block title %}Log In — GreenLink{% endblock %}
 
 {% block content %}
-<div class="max-w-md mx-auto bg-white p-8 rounded shadow-md">
-  <h2 class="text-2xl font-semibold mb-6">Log in to your account</h2>
+<div class="form-box">
+  <h2 class="login-heading">Log in to your account</h2>
   <form method="post" novalidate>
     {% csrf_token %}
     {% for field in form %}
