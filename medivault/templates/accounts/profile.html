@@ -1,7 +1,37 @@
-{% extends "accounts/base.html" %}
+<!-- templates/accounts/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Profile</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'accounts/profile.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Your Profile</h2>
 
-{% block content %}
-<h1>Setup Profile</h1>
+        <div class="profile-card">
+            <div class="profile-image">
+                {% if profile.profile_image %}
+                    <img src="{{ profile.profile_image.url }}" alt="Profile Image">
+                {% else %}
+                    <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Image">
+                {% endif %}
+            </div>
 
+            <div class="profile-details">
+                <p><strong>Full Name:</strong> {{ profile.full_name }}</p>
+                <p><strong>Username:</strong> {{ profile.user.username }}</p>
+                <p><strong>Email:</strong> {{ profile.user.email }}</p>
+                <p><strong>Mobile:</strong> {{ profile.mobile_number }}</p>
+                <p><strong>City:</strong> {{ profile.city }}</p>
+                <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
+                <p><strong>Bio:</strong> {{ profile.bio }}</p>
 
-{% endblock content %}
+                <a href="{% url 'update_profile' %}" class="btn">Edit Profile</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -38,7 +38,7 @@ def signup_user(request):
             login(request,user)
             Profile.objects.create(user=user)
             messages.success(request,"Account created...!")   
-            return redirect("profile")
+            return redirect("setup_profile")
         else:
             messages.error(request,'Please fix errors')
     else:
@@ -69,15 +69,50 @@ def logout_user(request):
 
 from django.shortcuts import get_object_or_404
 from .models import Profile            
+from .forms import ProfileForm
 
+@login_required
 def setup_profile(request):
-    profile=get_object_or_404(Profile,id=request.user.profile.id)
-    if request.methos=="POST":
-        profile.user=request.user
-        profile.city=request.POST.get("city")
-        profile.bio=request.POST.get("bio")
+    profile = get_object_or_404(Profile, user=request.user)
 
-        
-                
-        
-    return render(request,'accounts/profile.html')
+    if request.method == "POST":
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile setup complete.")
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'accounts/profile_form.html', {
+        'form': form,
+        'title': 'Setup Your Profile',
+        'button_text': 'Complete Setup'
+    })
+
+@login_required
+def update_profile(request):
+    profile = get_object_or_404(Profile, user=request.user)
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profile updated successfully.")
+            return redirect('profile')
+        else:
+            messages.error(request, "Please fix the errors below.")
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'accounts/profile_form.html', {
+        'form': form,
+        'title': 'Update Your Profile',
+        'button_text': 'Save Changes'
+    })
+
+
+@login_required
+def profile(request):
+    profile = get_object_or_404(Profile, user=request.user)
+    return render(request, 'accounts/profile.html', {'profile': profile})

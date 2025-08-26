@@ -5,11 +5,11 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from phonenumber_field.formfields import PhoneNumberField 
 from .models import Profile
 class SignUpForm(UserCreationForm):
-    # full_name = forms.CharField(
-    #     max_length=100,
-    #     required=True,
-    #     help_text="Your full name"
-    # )
+    full_name = forms.CharField(
+        max_length=100,
+        required=True,
+        help_text="Your full name"
+    )
     mobile_number = PhoneNumberField(
         region='IN',
         required=True,
@@ -34,7 +34,7 @@ class SignUpForm(UserCreationForm):
                 user.save()
                 Profile.objects.create(
                 user=user,
-                # full_name=self.cleaned_data['full_name'],
+                full_name=self.cleaned_data['full_name'],
                 mobile_number=self.cleaned_data['mobile_number']
             )
             return user
@@ -43,5 +43,10 @@ class SignUpForm(UserCreationForm):
 class UsernameLoginForm(AuthenticationForm):
     """Same as Django’s built‑in form – it already uses 'username' field."""
 
+
+class ProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['full_name', 'mobile_number', 'city', 'bio', 'profile_image']
 
 
