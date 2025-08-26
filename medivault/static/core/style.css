@@ -1,0 +1,106 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  background-color: #fafafa;
+  color: #262626;
+  margin: 0;
+}
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 0 16px;
+  height: 54px;
+}
+
+.nav-left .logo {
+  font-size: 24px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #262626;
+}
+
+.nav-center a,
+.nav-right a {
+  margin: 0 8px;
+  text-decoration: none;
+  color: #262626;
+  font-weight: 500;
+}
+
+.profile-link {
+  display: flex;
+  align-items: center;
+}
+
+.profile-pic {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-right: 8px;
+}
+
+.container {
+  max-width: 600px;
+  margin: 24px auto;
+  padding: 0 16px;
+}
+
+.record-list {
+  list-style: none;
+  padding: 0;
+}
+
+.record-item {
+  background: white;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.record-actions form,
+.record-actions a {
+  margin-left: 8px;
+}
+
+button,
+.delete-btn {
+  background-color: #ed4956;
+  border: none;
+  padding: 6px 12px;
+  color: white;
+  font-weight: 600;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover,
+.delete-btn:hover {
+  background-color: #b72a3d;
+}
+
+form label {
+  font-weight: 600;
+  display: block;
+  margin: 12px 0 4px;
+}
+
+form input[type="text"],
+form input[type="file"] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #dbdbdb;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+button[type="submit"] {
+  margin-top: 16px;
+}
