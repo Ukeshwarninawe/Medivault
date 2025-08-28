@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Uploads</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ocr/style.css' %}">
+</head>
+<body>
+    <h1>My Uploaded Documents</h1>
+
+    <ul>
+        {% for doc in uploads %}
+            <li>
+                <a href="{% url 'view_uploads' doc.id %}">{{ doc.file.name }}</a> —
+                Uploaded on {{ doc.uploaded_at }}
+
+
+                
+                {% if doc.processed %}
+                    ✅ Processed
+                {% else %}
+                    ⏳ Pending
+                {% endif %}
+                <button><a href="{% url 'delete_uploads' doc.id %}">Delete</a></button>
+                <button><a href="{% url 'view_uploads' doc.id %}">View</a></button>
+            </li>
+        {% empty %}
+            <li>No documents uploaded yet.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'upload_document' %}">Upload New Document</a>
+</body>
+</html>

@@ -17,6 +17,8 @@ def upload_record(request):
             record.save()
             messages.success(request,"Record Added successfully!")
             return redirect("my_vault")
+    else:
+        form=MedicalRecordForm()
     return render(request,'core/record_upload.html',{'form':form})
 
 

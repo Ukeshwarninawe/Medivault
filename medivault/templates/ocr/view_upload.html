@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>OCR Document View</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ocr/style.css' %}">
+</head>
+<body>
+    <h1>OCR Document View</h1>
+
+    <h3>Uploaded File:</h3>
+    <p>
+        <a href="{{ document.file.url }}" target="_blank">Download/View File</a>
+    </p>
+
+    <h3>OCR Result:</h3>
+    {% if document.ocr_result %}
+        <pre>{{ document.ocr_result }}</pre>
+    {% else %}
+        <p><em>No OCR result available.</em></p>
+    {% endif %}
+
+    <h3>AI Response:</h3>
+    {% if document.ai_response %}
+        <pre>{{ document.ai_response }}</pre>
+    {% else %}
+        <p><em>AI response not available yet.</em></p>
+    {% endif %}
+
+    <br>
+    <a href="{% url 'my_uploads' %}">← Back to My Uploads</a>
+    <button><a href="{% url 'delete_uploads' document.id %}">Delete</a></button>
+</body>
+</html>

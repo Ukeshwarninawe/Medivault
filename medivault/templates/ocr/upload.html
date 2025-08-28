@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload Document</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'ocr/style.css' %}">
+</head>
+<body>
+    <h1>Upload Document</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload & Process</button>
+    </form>
+
+    {% if document %}
+        <hr>
+        <h2>OCR Result:</h2>
+        <pre>{{ document.ocr_result }}</pre>
+    {% endif %}
+
+    <a href="{% url 'my_uploads' %}">View My Uploads</a>
+</body>
+</html>
