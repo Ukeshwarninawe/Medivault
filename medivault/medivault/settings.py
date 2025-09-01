@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'accounts',
     'phonenumber_field',
     'core',
-    'ocr'
+    'ocr',
+    'qr_code',
 
 ]
 
@@ -137,5 +138,4 @@ from dotenv import load_dotenv
 
 
 
-load_dotenv()
-MISTRAL_API_KEY="NGnVA62AQmDnhuVsueEbeT8jud44abSv"
+# load_dotenv()

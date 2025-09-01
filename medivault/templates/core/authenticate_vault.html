@@ -1,0 +1,8 @@
+{% extends "core/base.html" %}
+{% block content %}
+<h2>Enter Vault Password</h2>
+<form method="post">{% csrf_token %}
+  <input type="password" name="password" required><br>
+  <button type="submit">Unlock</button>
+</form>
+{% endblock %}

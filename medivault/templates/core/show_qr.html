@@ -1,0 +1,18 @@
+{% extends "core/base.html" %}
+{% load qr_code %}
+
+{% block title %}Your Vault QR{% endblock %}
+
+{% block content %}
+  <h2>Your Vault QR Code</h2>
+  <p>Scan this to access your vault (if authorized):</p>
+
+  <div style="text-align: center; margin-top: 20px;">
+    {% qr_from_text qr_url size="S" image_format="png" %}
+    <p><small>{{ qr_url }}</small></p>
+
+    <a href="{{qr_url}}"></a>
+  </div>
+
+  <a href="{% url 'view_vault'%}">Back to Vault</a>
+{% endblock %}

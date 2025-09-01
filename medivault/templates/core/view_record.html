@@ -1,19 +1,21 @@
 {% extends "core/base.html" %}
 {% block title %}View Record{% endblock %}
+
 {% block content %}
   <h2>Record Detail</h2>
-  {% with rec=record.first %}
-    {% if rec %}
-      <p><strong>Title:</strong> {{ rec.title|default:"Untitled" }}</p>
-      <p><strong>Uploaded On:</strong> {{ rec.uploaded_at|date:"M d, Y H:i" }}</p>
-      <p><strong>File:</strong> <a href="{{ rec.file.url }}" target="_blank">Download / View</a></p>
 
-      <form action="{% url 'delete_record' rec.id %}" method="post" onsubmit="return confirm('Delete this record?');">
-        {% csrf_token %}
-        <button type="submit" class="delete-btn">Delete Record</button>
-      </form>
-    {% else %}
-      <p>Record not found.</p>
-    {% endif %}
-  {% endwith %}
+  {% if record %}
+    <p><strong>Title:</strong> {{ record.title|default:"Untitled" }}</p>
+    <p><strong>Uploaded On:</strong> {{ record.uploaded_at|date:"M d, Y H:i" }}</p>
+    <p><strong>File:</strong> 
+      <a href="{{ record.file.url }}" target="_blank">Download / View</a>
+    </p>
+
+    <form action="{% url 'delete_record' record.id %}" method="post" onsubmit="return confirm('Delete this record?');">
+      {% csrf_token %}
+      <button type="submit" class="delete-btn">Delete Record</button>
+    </form>
+  {% else %}
+    <p>Record not found or access denied.</p>
+  {% endif %}
 {% endblock %}

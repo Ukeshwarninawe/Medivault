@@ -1,7 +1,11 @@
 {% extends "core/base.html" %}
 {% block title %}My Vault{% endblock %}
+
 {% block content %}
-  <h2>My Vault</h2>
+  <h2>My Vault{% if vault %}: {{ vault.name }}{% endif %}</h2>
+
+  <p><a href="{% url 'upload_record' %}">Upload New Record</a></p>
+
   <ul class="record-list">
     {% for rec in records %}
       <li class="record-item">
@@ -22,3 +26,4 @@
     {% endfor %}
   </ul>
 {% endblock %}
+
