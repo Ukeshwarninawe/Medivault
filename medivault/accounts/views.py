@@ -1,53 +1,25 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
-
-from .forms import SignUpForm, UsernameLoginForm
+from .forms import SignUpForm, UsernameLoginForm, ProfileForm
 from .models import Profile
-from django.shortcuts import get_object_or_404
 
-# -------------------------------------------------
-#  Sign‑up (creates User + Profile)
-# -------------------------------------------------
 def signup_user(request):
     if request.method == "POST":
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()                       # creates User + Profile
-            login(request, user)                     # log them in immediately
-            messages.success(request, "Account created – you are now logged in.")
-            return redirect('profile')
-        else:
-            messages.error(request, "Please fix the errors below.")
-    else:
-        form = SignUpForm()
-    return render(request, "accounts/signup.html", {"form": form})
-
-
-
-def signup_user(request):
-    if request.method=="POST":
-        form=SignUpForm(request.POST)
-
-        if form.is_valid():
-            user=form.save()
-            login(request,user)
-            Profile.objects.create(user=user)
-            messages.success(request,"Account created...!")   
+            user = form.save()
+            login(request, user)
+            messages.success(request, "Account created successfully!")   
             return redirect("setup_profile")
         else:
-            messages.error(request,'Please fix errors')
+            messages.error(request, 'Please fix the errors below.')
     else:
-        form=SignUpForm()
+        form = SignUpForm()
     
-    return render(request,'accounts/signup.html',{"form": form})
-# -------------------------------------------------
-#  Login (username only)
-# -------------------------------------------------
+    return render(request, 'accounts/signup.html', {"form": form})
+
 def login_user(request):
     if request.method == "POST":
         form = UsernameLoginForm(request, data=request.POST)
@@ -61,19 +33,14 @@ def login_user(request):
         form = UsernameLoginForm()
     return render(request, "accounts/login.html", {"form": form})
 
-
 def logout_user(request):
     logout(request)
     messages.info(request, "You have been logged out.")
     return redirect('login')
 
-from django.shortcuts import get_object_or_404
-from .models import Profile            
-from .forms import ProfileForm
-
 @login_required
 def setup_profile(request):
-    profile = get_object_or_404(Profile, user=request.user)
+    profile, created = Profile.objects.get_or_create(user=request.user)
 
     if request.method == "POST":
         form = ProfileForm(request.POST, request.FILES, instance=profile)
@@ -81,6 +48,8 @@ def setup_profile(request):
             form.save()
             messages.success(request, "Profile setup complete.")
             return redirect('profile')
+        else:
+            messages.error(request, "Please fix the errors below.")
     else:
         form = ProfileForm(instance=profile)
 
@@ -111,10 +80,7 @@ def update_profile(request):
         'button_text': 'Save Changes'
     })
 
-
 @login_required
 def profile(request):
     profile = get_object_or_404(Profile, user=request.user)
     return render(request, 'accounts/profile.html', {'profile': profile})
-
-

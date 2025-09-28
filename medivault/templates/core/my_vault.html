@@ -1,12 +1,17 @@
 {% extends "core/base.html" %}
 {% block title %}My Vault{% endblock %}
 {% block content %}
-  <h2>My Vault</h2>
+  <div class="vault-header">
+    <h2>My Medical Vault</h2>
+    <a href="{% url 'upload_record' %}" class="btn btn-primary">Upload New Record</a>
+  </div>
+  
   <ul class="record-list">
     {% for rec in records %}
       <li class="record-item">
         <div>
           <strong>{{ rec.title|default:"Untitled" }}</strong><br />
+          <span class="record-type">{{ rec.get_record_type_display }}</span><br />
           <small>Uploaded: {{ rec.uploaded_at|date:"M d, Y H:i" }}</small>
         </div>
         <div class="record-actions">
@@ -18,7 +23,7 @@
         </div>
       </li>
     {% empty %}
-      <li>No records uploaded yet.</li>
+      <li class="empty-state">No records uploaded yet. <a href="{% url 'upload_record' %}">Upload your first record</a></li>
     {% endfor %}
   </ul>
 {% endblock %}

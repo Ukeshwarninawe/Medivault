@@ -39,6 +39,7 @@
 
 {% extends "accounts/base.html" %}
 {% block title %}Your Profile — Medivault{% endblock %}
+{% load static %}
 
 {% block content %}
 <div class="max-w-2xl mx-auto bg-white shadow-lg rounded-lg p-6">
@@ -49,22 +50,24 @@
       {% if profile.profile_image %}
         <img src="{{ profile.profile_image.url }}" alt="Profile Image" class="rounded-full object-cover w-full h-full">
       {% else %}
-        <img src="{% static 'images/default_profile.jpg' %}" alt="Default Profile Image" class="rounded-full object-cover w-full h-full">
+        <div class="rounded-full bg-blue-600 text-white flex items-center justify-center w-full h-full text-4xl font-bold">
+          {{ profile.user.username|first|upper }}
+        </div>
       {% endif %}
     </div>
     <div>
-      <p><strong>Full Name:</strong> {{ profile.full_name }}</p>
-      <p><strong>Username:</strong> {{ profile.user.username }}</p>
-      <p><strong>Email:</strong> {{ profile.user.email }}</p>
-      <p><strong>Mobile:</strong> {{ profile.mobile_number }}</p>
-      <p><strong>City:</strong> {{ profile.city }}</p>
-      <p><strong>Date of Birth:</strong> {{ profile.date_of_birth }}</p>
-      <p><strong>Bio:</strong> {{ profile.bio }}</p>
+      <p class="mb-2"><strong>Full Name:</strong> {{ profile.full_name|default:"Not provided" }}</p>
+      <p class="mb-2"><strong>Username:</strong> {{ profile.user.username }}</p>
+      <p class="mb-2"><strong>Email:</strong> {{ profile.user.email }}</p>
+      <p class="mb-2"><strong>Mobile:</strong> {{ profile.mobile_number|default:"Not provided" }}</p>
+      <p class="mb-2"><strong>City:</strong> {{ profile.city|default:"Not provided" }}</p>
+      <p class="mb-2"><strong>Bio:</strong> {{ profile.bio|default:"No bio provided" }}</p>
     </div>
   </div>
 
   <div class="mt-6">
     <a href="{% url 'update_profile' %}" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded">Edit Profile</a>
+    <a href="{% url 'my_vault' %}" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded ml-2">My Vault</a>
   </div>
 </div>
 {% endblock %}

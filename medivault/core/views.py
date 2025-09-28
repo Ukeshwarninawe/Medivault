@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
+@login_required
 def upload_record(request):
     profile=get_object_or_404(Profile,user=request.user)
     if request.method=="POST":
@@ -17,9 +18,13 @@ def upload_record(request):
             record.save()
             messages.success(request,"Record Added successfully!")
             return redirect("my_vault")
+        else:
+            messages.error(request, "Please fix the errors below.")
+    else:
+        form = MedicalRecordForm()
     return render(request,'core/record_upload.html',{'form':form})
 
-
+@login_required
 def my_vault(request):
     profile=get_object_or_404(Profile,user=request.user)
     records=MedicalRecord.objects.filter(profile=profile).order_by("-uploaded_at")
@@ -27,16 +32,16 @@ def my_vault(request):
         "records":records
     })
 
-
+@login_required
 def delete_record(request,record_id:int):
     record=get_object_or_404(MedicalRecord,id=record_id,profile=request.user.profile)
-    if record:
+    if record.file:
         record.file.delete()
     record.delete()
     messages.success(request,'Record Deleted Successfully')
     return redirect('my_vault')  
 
-
+@login_required
 def view_record(request,record_id:int):
-    record=MedicalRecord.objects.filter(id=record_id,profile=request.user.profile)
+    record=get_object_or_404(MedicalRecord,id=record_id,profile=request.user.profile)
     return render(request, 'core/view_record.html', {'record': record})

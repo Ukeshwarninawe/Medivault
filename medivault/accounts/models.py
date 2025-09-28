@@ -7,11 +7,10 @@ from django.core.validators import FileExtensionValidator
 class Profile(models.Model):
     
     user=models.OneToOneField(User,on_delete=models.CASCADE)
-    mobile_number = PhoneNumberField(region='IN')  
-    city=models.CharField(max_length=30)
-    bio=models.TextField(max_length=200)
+    mobile_number = PhoneNumberField(region='IN', blank=True, null=True)  
+    city=models.CharField(max_length=30, blank=True, null=True)
+    bio=models.TextField(max_length=200, blank=True, null=True)
 
-    # date_of_birth=models.DateField(null=True,blank=True)
     full_name=models.CharField(max_length=255,null=True,blank=True)
     profile_image = models.ImageField(
         upload_to='profile_images/',
@@ -23,5 +22,5 @@ class Profile(models.Model):
 
     
     def __str__(self):
-        return f"{self.user.username} from {self.city} "
+        return f"{self.user.username} - {self.full_name or 'No name'}"
 
